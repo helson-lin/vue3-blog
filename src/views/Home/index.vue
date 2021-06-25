@@ -1,10 +1,13 @@
 <template>
-  <CardList :list="cardList" @like="like" />
+  <div class="index">
+      <CardList :list="cardList" @like="like" />
+  </div>
 </template>
 <script>
+import marked from 'marked';
 import CardList from "@/components/Home/CardList.vue";
 import { defineComponent, onMounted, ref } from "vue";
-
+import { getArticle } from '@/common/api/article';
 export default defineComponent({
   name: "Home",
   components: {
@@ -20,20 +23,19 @@ export default defineComponent({
     const like = (index) => {
       cardList.value[index].isLike = cardList.value[index].isLike === 0 ? 1 : 0;
     };
-    const getArticle = () => {
-      window.$axios
-        .get(
-          "https://www.fastmock.site/mock/1231d8bdceb5a61e752ed5677e00fa17/blog/home/list"
-        )
-        .then((res) => {
-          if (res.data.code === 0) {
-            cardList.value = res.data.data;
-            console.log(cardList.value);
-          }
-        });
+    const getList = () => {
+      getArticle().then((res) => {
+            if (res.code === 200) {
+              cardList.value = res.data.map(item => {
+                item.profile = marked(item.profile,{sanitize: true});
+                return item;
+              });
+              console.log(cardList.value);
+            }
+          });
     };
     onMounted(() => {
-      getArticle();
+      getList();
     });
     return {
       cardList,
@@ -42,3 +44,10 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss" scoped>
+.index {
+   background: #fff;
+   padding: 20px 40px;
+   border-radius: 5px;
+}
+</style>

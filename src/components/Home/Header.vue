@@ -7,7 +7,7 @@
     <div class="classfication">
       <span
         class="classfiy"
-        @click="routerTab(index)"
+        @click="routerTab(index,classfiy.path)"
         v-for="(classfiy, index) in classfiyList"
         :key="index"
         >{{ classfiy.name }}</span
@@ -42,9 +42,11 @@ export default defineComponent({
       context.emit("changStatus");
     };
 
-    const routerTab = (index) => {
+    const routerTab = (index,path) => {
         if (index === 0) {
             router.push({path: '/'})
+        } else {
+          router.push({path: '/classify' + path})
         }
     };
 
@@ -55,15 +57,19 @@ export default defineComponent({
       classfiyList: [
         {
             name: 'Home',
+            path: '/'
         },
         {
           name: "Java",
+          path: '/java'
         },
         {
           name: "Vue",
+          path: '/vue'
         },
         {
           name: "React",
+          path: '/react'
         },
       ],
       loginClick,
@@ -85,7 +91,7 @@ export default defineComponent({
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   display: flex;
   align-items: center;
-
+  z-index: 20;
   &-left {
     height: inherit;
     padding: 0 20px;

@@ -17,3 +17,6 @@ body::-webkit-scrollbar {
     width: 0 !important; 
     display: none;
 }
+#app {
+    width: 100%;
+}
