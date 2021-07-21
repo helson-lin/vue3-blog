@@ -1,5 +1,5 @@
 <template>
     <div class="admin">
-        admin
+        dasdasdsdsad
     </div>
 </template>

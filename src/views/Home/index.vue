@@ -46,8 +46,8 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .index {
-   background: #fff;
-   padding: 20px 40px;
+  // background: #fff;
+   padding: 20px 0;
    border-radius: 5px;
 }
 </style>

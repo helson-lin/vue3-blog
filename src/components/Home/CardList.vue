@@ -85,6 +85,12 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     border-bottom: 2px solid #DDDFE2;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    padding: 20px 40px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: #fff;
     &:hover {
       cursor: pointer;
     }
