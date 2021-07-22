@@ -52,7 +52,7 @@ export default defineComponent({
                 height: 100%;
                  border-radius: vw(5);
                 background: #fff;
-                padding: vw(20);
+                padding: vw(10) vw(20);
                 box-sizing: border-box;
             }
         }

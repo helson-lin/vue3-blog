@@ -15,6 +15,13 @@ const http = axios.create({
     },
 },
 })
+http.interceptors.request.use((config) => {
+  const configBackup = config;
+  if (window.localStorage.getItem('token')) {
+      configBackup.headers.Authorization = window.localStorage.getItem('token');
+  }
+  return configBackup;
+});
 http.interceptors.response.use(
   (response) => {
     if (response.status !== 200) {
