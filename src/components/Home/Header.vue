@@ -7,7 +7,7 @@
     <div class="classfication">
       <span
         class="classfiy"
-        @click="routerTab(index,classfiy.path)"
+        @click="routerTab(index,classfiy)"
         v-for="(classfiy, index) in classfiyList"
         :key="index"
         >{{ classfiy.name }}</span
@@ -21,8 +21,9 @@
   </div>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, nextTick } from "vue";
 import { useRouter } from 'vue-router';
+import useScrollToTop from "@/hooks/useScrollToTop";
 export default defineComponent({
   name: "Header",
   props: {
@@ -31,22 +32,33 @@ export default defineComponent({
       default: "0",
     },
   },
-  setup(props, context) {
-      const router = useRouter();
+  setup(props) {
+    const router = useRouter();
     // data
     const logo = require("../../assets/img/logo.png");
 
     // method
     const loginClick = () => {
       console.log("点击登录", props.status);
-      context.emit("changStatus");
+      if (props.status === '0') {
+        router.push({path: '/login'});
+      }
+      // context.emit("changStatus");
     };
 
-    const routerTab = (index,path) => {
+    const routerTab = (index,classfiy) => {
+        const { path, type } = classfiy;
         if (index === 0) {
             router.push({path: '/'})
         } else {
+          if (type) {
+            router.push({path: path})
+            return;
+          }
           router.push({path: '/classify' + path})
+          nextTick(() => {
+            useScrollToTop();
+          })
         }
     };
 
@@ -71,6 +83,11 @@ export default defineComponent({
           name: "React",
           path: '/react'
         },
+        {
+          name: 'Subscribe',
+          path: '/subscribe',
+          type: 1,
+        }
       ],
       loginClick,
       routerTab,

@@ -12,7 +12,7 @@
 <script>
 import ToUpper from "@/teleport/toUpper.vue";
 import Header from "@/components/Home/Header.vue";
-import { defineComponent, reactive, ref, onMounted, onUnmounted, onUpdated } from "vue";
+import { defineComponent, reactive, ref, onMounted, onUnmounted, onUpdated, watch } from "vue";
 
 export default defineComponent({
   name: "Home",
@@ -25,6 +25,7 @@ export default defineComponent({
     // reactive
     let status = ref("0");
     let scrollTop = ref(0);
+    let token = localStorage.getItem('token');
     let name = reactive("helson");
     /**
      * @description: 改变用户登录的状态，如果不使用ref数据 则修改了status 页面上也无变化
@@ -34,6 +35,9 @@ export default defineComponent({
     const changStatus = () => {
       status.value = status.value === "1" ? "0" : "1";
     };
+    watch(token, (old) => {
+      console.log('token', old);
+    });
     onMounted(() => {
       console.log("onMounted");
       window.addEventListener("scroll", () => {

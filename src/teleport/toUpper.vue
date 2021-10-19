@@ -23,7 +23,7 @@ export default defineComponent({
     },
   },
   setup() {
-      const router = useRouter();
+    const router = useRouter();
     const toUp = () => {
       useScrollToTop();
     };
@@ -40,7 +40,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .toUpper {
-  position: sticky;
+  position: fixed;
   top: 90%;
   left: 90%;
 }

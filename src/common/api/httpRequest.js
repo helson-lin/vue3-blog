@@ -4,11 +4,24 @@
  * @return {*}
  */
 import axios from 'axios'
+//import qs from 'qs'
 const baseUrl  = process.env.NODE_ENV === 'development' ? '/api/' : 'http://wa9lfne.nat.ipyingshe.com'
 const http = axios.create({
   baseURL: baseUrl,
-  timeout: 5000
+  timeout: 5000,
+  headers: {
+    post: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+    },
+},
 })
+http.interceptors.request.use((config) => {
+  const configBackup = config;
+  if (window.localStorage.getItem('token')) {
+      configBackup.headers.Authorization = window.localStorage.getItem('token');
+  }
+  return configBackup;
+});
 http.interceptors.response.use(
   (response) => {
     if (response.status !== 200) {
@@ -40,13 +53,16 @@ export const getData = function (url, query) {
   return promise.then(res => { return res }).catch(error => { return error })
 }
 
-export const postData = (apiName, query) => {
+export const postData = (url, query) => {
   return new Promise((resolve, reject) => {
-    http.post('api', query).then(res => {
-      if (res) {
-        resolve(res.data)
+    http.post(url, query).then(res => {
+      const { data: result } = res
+      if (result) {
+        console.log('请求成功', result)
+        resolve(result)
       } else {
-        reject(res)
+        console.log('请求失败', result)
+        reject(result)
       }
     })
   })
